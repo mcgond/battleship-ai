@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Battleship.AI.Contract", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Battleship.AI.Contract.Test", "test\Battleship.AI.Contract.Test\Battleship.AI.Contract.Test.csproj", "{1058E458-0DE3-4A9C-A61F-EDB9A0932257}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Battleship.AI.Engine", "src\Battleship.AI.Engine\Battleship.AI.Engine.csproj", "{527FDCCA-4130-43C4-B9C4-727C9642D245}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{1058E458-0DE3-4A9C-A61F-EDB9A0932257}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1058E458-0DE3-4A9C-A61F-EDB9A0932257}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1058E458-0DE3-4A9C-A61F-EDB9A0932257}.Release|Any CPU.Build.0 = Release|Any CPU
+		{527FDCCA-4130-43C4-B9C4-727C9642D245}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{527FDCCA-4130-43C4-B9C4-727C9642D245}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{527FDCCA-4130-43C4-B9C4-727C9642D245}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{527FDCCA-4130-43C4-B9C4-727C9642D245}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
