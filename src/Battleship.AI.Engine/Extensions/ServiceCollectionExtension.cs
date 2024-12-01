@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
+using Battleship.AI.Engine.Service.HitShipTracking;
 using Battleship.AI.Engine.Service.Hunt;
+using Battleship.AI.Engine.Service.Offense;
 using Battleship.AI.Engine.Service.ShipFit;
 using Battleship.AI.Engine.Service.Target;
 using Battleship.AI.Engine.Strategy.Offense.Hunt;
@@ -19,7 +21,9 @@ namespace Battleship.AI.Engine.Extensions
             services.AddTransient<DetermineShipDirectionStrategy>();
             services.AddTransient<SinkShipStrategy>();
 
+            services.AddSingleton<IHitShipTrackingService, HitShipTrackingService>();
             services.AddTransient<IHuntService, HuntService>();
+            services.AddTransient<IOffenseService, OffenseService>();
             services.AddTransient<IShipFitService, ShipFitService>();
             services.AddTransient<ITargetService, TargetService>();
         }
