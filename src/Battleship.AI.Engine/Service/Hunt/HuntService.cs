@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 using Battleship.AI.Contract;
 using Battleship.AI.Engine.Strategy.Offense.Hunt;
@@ -9,15 +8,21 @@ namespace Battleship.AI.Engine.Service.Hunt
     public class HuntService : IHuntService
     {
         private readonly ILogger<HuntService> _logger;
-        private readonly IServiceProvider _serviceProvider;
+        private readonly HighScoreStrategy _highScoreStrategy;
+        private readonly LowScoreStrategy _lowScoreStrategy;
+        private readonly RandomScoreStrategy _randomScoreStrategy;
 
         private readonly Random _random;
 
         public HuntService(ILogger<HuntService> logger,
-            IServiceProvider serviceProvider)
+            HighScoreStrategy highScoreStrategy,
+            LowScoreStrategy lowScoreStrategy,
+            RandomScoreStrategy randomScoreStrategy)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+            _highScoreStrategy = highScoreStrategy ?? throw new ArgumentNullException(nameof(highScoreStrategy));
+            _lowScoreStrategy = lowScoreStrategy ?? throw new ArgumentNullException(nameof(lowScoreStrategy));
+            _randomScoreStrategy = randomScoreStrategy ?? throw new ArgumentNullException(nameof(randomScoreStrategy));
 
             _random = new Random();
         }
@@ -26,9 +31,9 @@ namespace Battleship.AI.Engine.Service.Hunt
         {
             return _random.Next(1, 101) switch
             {
-                >= 1 and <= 95 => _serviceProvider.GetRequiredService<HighScoreStrategy>().GetAttack(grid),
-                > 95 and <= 99 => _serviceProvider.GetRequiredService<LowScoreStrategy>().GetAttack(grid),
-                _ => _serviceProvider.GetRequiredService<RandomScoreStrategy>().GetAttack(grid)
+                >= 1 and <= 95 => _highScoreStrategy.GetAttack(grid),
+                > 95 and <= 99 => _lowScoreStrategy.GetAttack(grid),
+                _ => _randomScoreStrategy.GetAttack(grid)
             };
         }
     }

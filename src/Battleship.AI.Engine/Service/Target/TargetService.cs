@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 using Battleship.AI.Contract;
 using Battleship.AI.Contract.Enumeration;
@@ -10,24 +9,27 @@ namespace Battleship.AI.Engine.Service.Target
     public class TargetService : ITargetService
     {
         private ILogger<TargetService> _logger;
-        private readonly IServiceProvider _serviceProvider;
+        private readonly DetermineShipDirectionStrategy _determineShipDirectionStrategy;
+        private readonly SinkShipStrategy _sinkShipStrategy;
 
         public TargetService(ILogger<TargetService> logger,
-            IServiceProvider serviceProvider)
+            DetermineShipDirectionStrategy determineShipDirectionStrategy,
+            SinkShipStrategy sinkShipStrategy)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+            _determineShipDirectionStrategy = determineShipDirectionStrategy ?? throw new ArgumentNullException(nameof(determineShipDirectionStrategy));
+            _sinkShipStrategy = sinkShipStrategy ?? throw new ArgumentNullException(nameof(sinkShipStrategy));
         }
 
         public Coordinate GetAttack(Grid grid, Ship shipToSink)
         {
             if (shipToSink.Orientation == Orientation.Unknown)
             {
-                return _serviceProvider.GetRequiredService<DetermineShipDirectionStrategy>().GetAttack(grid, shipToSink);
+                return _determineShipDirectionStrategy.GetAttack(grid, shipToSink);
             }
             else
             {
-                return _serviceProvider.GetRequiredService<SinkShipStrategy>().GetAttack(grid, shipToSink);
+                return _sinkShipStrategy.GetAttack(grid, shipToSink);
             }
         }
     }
