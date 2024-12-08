@@ -6,6 +6,7 @@ using Battleship.AI.Engine.Enumeration;
 using Battleship.AI.Engine.Service.HitShipTracking;
 using Battleship.AI.Engine.Service.Hunt;
 using Battleship.AI.Engine.Service.Target;
+using Battleship.AI.Engine.Strategy.Offense.Misc;
 
 namespace Battleship.AI.Engine.Service.Offense
 {
@@ -15,18 +16,21 @@ namespace Battleship.AI.Engine.Service.Offense
         private readonly IHuntService _huntService;
         private readonly ITargetService _targetService;
         private readonly IHitShipTrackingService _hitShipTrackingService;
+        private readonly MarkSquaresAsMissStrategy _markSquaresAsMissStrategy;
 
         private AIState _attackMode;
 
         public OffenseService(ILogger<OffenseService> logger,
             IHuntService huntService,
             ITargetService targetService,
-            IHitShipTrackingService hitShipTrackingService)
+            IHitShipTrackingService hitShipTrackingService,
+            MarkSquaresAsMissStrategy markSquaresAsMissStrategy)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _huntService = huntService ?? throw new ArgumentNullException(nameof(huntService));
             _targetService = targetService ?? throw new ArgumentNullException(nameof(targetService));
             _hitShipTrackingService = hitShipTrackingService ?? throw new ArgumentNullException(nameof(hitShipTrackingService));
+            _markSquaresAsMissStrategy = markSquaresAsMissStrategy ?? throw new ArgumentNullException(nameof(markSquaresAsMissStrategy));
 
             _attackMode = AIState.Hunt;
         }
@@ -63,6 +67,11 @@ namespace Battleship.AI.Engine.Service.Offense
             };
 
             opponentGameboard.Grid.At(attackCoordinate).Score.ZeroOut();
+
+            if (_attackMode != AIState.Target && opponentGameboard.Fleet.SmallestUnsunkShipSize != 0)
+            {
+                _markSquaresAsMissStrategy.MarkSquares(opponentGameboard.Grid, opponentGameboard.Fleet.SmallestUnsunkShipSize);
+            }
         }
 
         private void HandleMissResult(Gameboard opponentGameboard, Coordinate attackCoordinate)

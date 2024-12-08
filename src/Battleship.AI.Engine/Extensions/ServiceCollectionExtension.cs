@@ -8,9 +8,10 @@ using Battleship.AI.Engine.Service.ScoreCalculation;
 using Battleship.AI.Engine.Service.ShipFit;
 using Battleship.AI.Engine.Service.SquareScoreDetermination;
 using Battleship.AI.Engine.Service.Target;
-using Battleship.AI.Engine.Strategy.Offense.Hunt;
-using Battleship.AI.Engine.Strategy.Offense.Target;
 using Battleship.AI.Engine.Strategy.Defense.Placement;
+using Battleship.AI.Engine.Strategy.Offense.Hunt;
+using Battleship.AI.Engine.Strategy.Offense.Misc;
+using Battleship.AI.Engine.Strategy.Offense.Target;
 
 namespace Battleship.AI.Engine.Extensions
 {
@@ -26,6 +27,8 @@ namespace Battleship.AI.Engine.Extensions
             services.AddTransient<SinkShipStrategy>();
 
             services.AddTransient<RandomPlacementStrategy>();
+
+            services.AddTransient<MarkSquaresAsMissStrategy>();
 
             services.AddTransient<IDefenseService, DefenseService>();
             services.AddSingleton<IHitShipTrackingService, HitShipTrackingService>();
