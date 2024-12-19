@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
+using Battleship.AI.Engine.Service.AI;
 using Battleship.AI.Engine.Service.Defense;
 using Battleship.AI.Engine.Service.HitShipTracking;
 using Battleship.AI.Engine.Service.Hunt;
@@ -30,6 +31,7 @@ namespace Battleship.AI.Engine.Extensions
 
             services.AddTransient<MarkSquaresAsMissStrategy>();
 
+            services.AddTransient<IAIService, AIService>();
             services.AddTransient<IDefenseService, DefenseService>();
             services.AddSingleton<IHitShipTrackingService, HitShipTrackingService>();
             services.AddTransient<IHuntService, HuntService>();

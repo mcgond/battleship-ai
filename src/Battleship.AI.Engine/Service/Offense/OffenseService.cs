@@ -49,7 +49,7 @@ namespace Battleship.AI.Engine.Service.Offense
             }
         }
 
-        public void HandleAttackResult(Gameboard opponentGameboard, Coordinate attackCoordinate, AttackResult attackResult, Ship hitShip)
+        public void HandleAttackResult(Gameboard opponentGameboard, Coordinate attackCoordinate, AttackResult attackResult, string hitShipString)
         {
             switch (attackResult)
             {
@@ -58,11 +58,11 @@ namespace Battleship.AI.Engine.Service.Offense
                     break;
 
                 case AttackResult.Hit:
-                    HandleHitResult(opponentGameboard, attackCoordinate, hitShip);
+                    HandleHitResult(opponentGameboard, attackCoordinate, hitShipString);
                     break;
 
                 case AttackResult.Sunk:
-                    HandleSunkResult(opponentGameboard, attackCoordinate, hitShip);
+                    HandleSunkResult(opponentGameboard, attackCoordinate, hitShipString);
                     break;
             };
 
@@ -79,9 +79,11 @@ namespace Battleship.AI.Engine.Service.Offense
             opponentGameboard.Grid.At(attackCoordinate).State = SquareState.Miss;
         }
 
-        private void HandleHitResult(Gameboard opponentGameboard, Coordinate attackCoordinate, Ship hitShip)
+        private void HandleHitResult(Gameboard opponentGameboard, Coordinate attackCoordinate, string hitShipString)
         {
             opponentGameboard.Grid.At(attackCoordinate).State = SquareState.Hit;
+
+            Ship hitShip = opponentGameboard.Fleet.Ships.Where(s => s.Name == hitShipString).First();
             hitShip.Hit(attackCoordinate);
 
             // Switch to "Target" mode to sink hit ship
@@ -92,9 +94,11 @@ namespace Battleship.AI.Engine.Service.Offense
             _hitShipTrackingService.TryAddHitShip(hitShip);
         }
 
-        private void HandleSunkResult(Gameboard opponentGameboard, Coordinate attackCoordinate, Ship hitShip)
+        private void HandleSunkResult(Gameboard opponentGameboard, Coordinate attackCoordinate, string hitShipString)
         {
             opponentGameboard.Grid.At(attackCoordinate).State = SquareState.Hit;
+
+            Ship hitShip = opponentGameboard.Fleet.Ships.Where(s => s.Name == hitShipString).First();
             hitShip.Hit(attackCoordinate);
 
             // Remove the now sunk ship from the List of ships in the process of being sunk

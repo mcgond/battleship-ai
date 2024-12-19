@@ -7,7 +7,7 @@ namespace Battleship.AI.Engine.Service.Offense
     {
         Coordinate GetAttack(Grid grid);
 
-        void HandleAttackResult(Gameboard opponentGameboard, Coordinate attackCoordinate, AttackResult attackResult, Ship hitShip);
+        void HandleAttackResult(Gameboard opponentGameboard, Coordinate attackCoordinate, AttackResult attackResult, string hitShipString);
 
     }
 }
